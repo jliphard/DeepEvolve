@@ -16,7 +16,7 @@ DeepEvolve is based on [Matt Harvey's Keras code](https://github.com/harvitronix
 
 ## Important aspects of the code
 
-Each AI network architecture is represented a string of genes. These architectures/genomes recombine with some frequency, at one randomly selected position along the genomes. Note that a genome with *N* genes can recombine at *N* - 1 *nontrivial* positions (1, 2, 3, N-1). Specifically, ```recomb_loc = 0 || = len(self.all_possible_genes)``` does not lead to recombination, but just returns the original parental genomes, and therefore ```recomb_loc = random.randint(1, len(self.all_possible_genes) - 1)```. 
+Each AI network architecture is represented as a string of genes. These architectures/genomes recombine with some frequency, at one randomly selected position along the genomes. Note that a genome with *N* genes can recombine at *N* - 1 *nontrivial* positions (1, 2, 3, N-1). Specifically, ```recomb_loc = 0 || = len(self.all_possible_genes)``` does not lead to recombination, but just returns the original parental genomes, and therefore ```recomb_loc = random.randint(1, len(self.all_possible_genes) - 1)```. 
 
 ```python
 pcl = len(self.all_possible_genes)
