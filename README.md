@@ -82,11 +82,11 @@ For a convolutional neural network being trained on `cifar10`, expect run times 
 
 ## Examples
 
-Here are the time dynamics of discovering the optimal optimizer. Adaptive Moment Estimation (Adam) computes adaptive learning rates for each parameter, and stores an exponentially decaying average of past squared gradients like Adadelta and RMSprop, but also considers an exponentially decaying average of past gradients.
+Here are the time dynamics of discovering the optimal optimizer. Adaptive Moment Estimation (Adam) computes adaptive learning rates for each parameter, and stores an exponentially decaying average of past squared gradients like Adadelta and RMSprop, but also considers an exponentially decaying average of past gradients. By the 5th generation, genomes with adaptive moment estimation are the dominant subspecies in the population. 
 
 ![alt text](https://github.com/jliphard/DeepEvolve/blob/726aaf3dfdc8d6d2c6bc64d3a55e3ab3023b29c7/Images/Optimizer.png "Optimizer kinetics")
 
-By the 5th generation, genomes with adaptive moment estimation are the dominant subspecies in the population. 
+In this figure, you can see a small selection of genomes being trained for 4 epochs on cifar10. The x axis is time, and the y axis is accuracy. Some genomes fail to learn at all (flate line at 10% accuracy), while about 1/2 of the genomes achieve 35% accuracy within one epoch. Early performance does not perfectly predict learning rates in subsequent epoches, but it comes close. 
 
 ![alt text](https://github.com/jliphard/DeepEvolve/blob/726aaf3dfdc8d6d2c6bc64d3a55e3ab3023b29c7/Images/Evolve.png "Evolution kinetics")
 
