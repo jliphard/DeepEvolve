@@ -79,3 +79,11 @@ In general, you will want to run the code in the cloud - we use [floydhub.com](h
 ```$ floyd run --gpu --env keras "python main.py"```
 
 For a convolutional neural network being trained on `cifar10`, expect run times of about 2 hours on a Tesla K80 (30 genomes and 8 generations). Compared to the brute force solution, you should expect to get high performing hyperparameter combinations within about 3.5 generations, about 8x to 12x faster than brute force. Of course, with a genetic algorithm, you are not *guaranteed* to find the best solution, you are merely likely to find something suitable relatively quickly. You can choose the various options in ```main.py```.
+
+## Examples
+
+Here are the time dynamics of discovering the optimal optimizer. Adaptive Moment Estimation (Adam) computes adaptive learning rates for each parameter, and stores an exponentially decaying average of past squared gradients like Adadelta and RMSprop, but also considers an exponentially decaying average of past gradients.
+
+Inline-style: 
+![alt text](https://github.com/jliphard/DeepEvolve/blob/master/Evolve.pdf "Optimizer kinetics")
+
