@@ -87,3 +87,5 @@ Here are the time dynamics of discovering the optimal optimizer. Adaptive Moment
 ![alt text](https://github.com/jliphard/DeepEvolve/blob/a3874afa65e1358de758670e1020fb6776e453f5/Evolve.pdf "Evolution kinetics")
 
 ![alt text](https://github.com/jliphard/DeepEvolve/blob/a3874afa65e1358de758670e1020fb6776e453f5/Optimizer.pdf "Optimizer kinetics")
+
+![alt text](https://github.com/jliphard/DeepEvolve/blob/726aaf3dfdc8d6d2c6bc64d3a55e3ab3023b29c7/Images/Optimizer.png "Optimizer kinetics")
