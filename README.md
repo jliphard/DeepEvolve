@@ -92,6 +92,6 @@ In this figure, you can see a small selection of genomes being trained for 4 epo
 
 ![alt text](https://github.com/jliphard/DeepEvolve/blob/4f8cf547797b2263659f053e0824bf34b39e337a/Images/Evolve.png "Evolution kinetics")
 
-This is graphic overview of how the AIs evolve, showing the initial (random) population of networks/genomes (left), and the various cycles of recombination. 
+This is a graphical overview of how the AI hyperparameter sets (aka genomes) evolve, showing the initial (random) population of genomes (left), and the various cycles of recombination and selection. 
 
 ![alt text](https://github.com/jliphard/DeepEvolve/blob/55473015692e2af75be35fa1baf6536e300032bc/Images/Network.png "Evolution of AI hyperparameter sets")
