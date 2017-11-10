@@ -16,7 +16,7 @@ DeepEvolve is based on [Matt Harvey's Keras code](https://github.com/harvitronix
 
 Each AI network architecture is represented a string of genes. These architectures/genomes recombine with some frequency, at one randomly selected position along the genomes. Note that a genome with *N* genes can recombine at *N* - 1 *nontrivial* positions (1, 2, 3, N-1). Specifically, ```recomb_loc = 0 || = len(self.all_possible_genes)``` does not lead to recombination, but just returns the original parental genomes, and therefore ```recomb_loc = random.randint(1, len(self.all_possible_genes) - 1)```. 
 
-```
+```python
 pcl = len(self.all_possible_genes)
 recomb_loc = random.randint(1,pcl - 1) 
 
@@ -37,7 +37,7 @@ for x in range(0, pcl):
 
 To increase the rate of discovering optimal hyperparameters, we also keep track of all genomes in all previous generations; each genome is identified via its MD5 hash and we block recreation of duplicate, previously generated and trained genomes.  
 
-```
+```python
 if self.random_select > random.random():
     gtc = copy.deepcopy(genome)
                 
@@ -47,7 +47,7 @@ if self.random_select > random.random():
 
 Finally, we also facilitate genome uniqueness during the mutation operation, by limiting random choices to ones that differ from the gene's current value. 
 
-```
+```python
 def mutate_one_gene(self):
     """Randomly mutate one gene in the genome.
     """
