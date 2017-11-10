@@ -83,7 +83,7 @@ def main():
 
     all_possible_genes = {
         'nb_neurons': [16, 32, 64, 128],
-        'nb_layers':  [1, 2, 3],
+        'nb_layers':  [1, 2, 3, 4, 5],
         'activation': ['relu', 'elu', 'tanh', 'sigmoid', 'hard_sigmoid','softplus','linear'],
         'optimizer':  ['rmsprop', 'adam', 'sgd', 'adagrad', 'adadelta', 'adamax', 'nadam'],
     }
