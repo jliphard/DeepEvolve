@@ -88,6 +88,4 @@ Here are the time dynamics of discovering the optimal optimizer. Adaptive Moment
 
 In this figure, you can see a small selection of genomes being trained for 4 epochs on cifar10. The x axis is time, and the y axis is accuracy. Some genomes fail to learn at all (flate line at 10% accuracy), while about 1/2 of the genomes achieve 35% accuracy within one epoch. Early performance does not perfectly predict learning rates in subsequent epoches, but it comes close. 
 
-![alt text](https://github.com/jliphard/DeepEvolve/blob/726aaf3dfdc8d6d2c6bc64d3a55e3ab3023b29c7/Images/Evolve.png "Evolution kinetics")
-
-
+![alt text](https://github.com/jliphard/DeepEvolve/blob/4f8cf547797b2263659f053e0824bf34b39e337a/Images/Evolve.png "Evolution kinetics")
