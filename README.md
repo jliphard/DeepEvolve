@@ -8,7 +8,7 @@ If you had infinite time and infinite computing resources, you could brute-force
 
 Genetic algorithms can be used to solve complex nonlinear optimization problems. DeepEvolve is a simple Keras framework for rapidly discovering good hyperparameters using cycles of mutation, recombination, training, and selection. The role of **point mutations** in genomes is readily apparent - create diversity - but the functions of other genome operations, such as **recombination**, are not as widely appreciated. Briefly, recombination addresses [**clonal interference**](https://en.wikipedia.org/wiki/Clonal_interference), which is a major kinetic bottleneck in discovering optimal genomes in evolving populations. 
 
-Imagine that two (or more) *different* beneficial mutations in *different* genes arise independently in different individuals. These individuals will have higher fitness, but the algorithm (aka evolution) can not easily converge on the optimal genome. Evolution solves clonal interference through recombination, which allows two genomes to swap entire regions of chromosomes, increasing the likelihood of generating a single genome with *both* beneficial genes. If you are curious about clonal interference, a good place to start is [*The fate of competing beneficial mutations in an asexual population*](https://link.springer.com/article/10.1023%2FA%3A1017067816551). 
+Imagine that two (or more) *different* beneficial mutations in *different* genes arise independently in different individuals. These individuals will have higher fitness, but the algorithm (aka evolution) can not easily converge on the optimal genome. Evolution solves clonal interference through recombination, which allows two genomes to swap entire regions, increasing the likelihood of generating a single genome with *both* beneficial genes. If you are curious about clonal interference, a good place to start is [*The fate of competing beneficial mutations in an asexual population*](https://link.springer.com/article/10.1023%2FA%3A1017067816551). 
 
 ## History of the codebase
 
@@ -61,6 +61,8 @@ def mutate_one_gene(self):
     self.update_hash()
 ```
 
+If you try to keep all the models in memory, you will quickly run out, so we use ```K.clear_session()``` after every training run. 
+
 ## To run
 
 To run the brute force algorithm which goes through all possible choices one by one:
@@ -75,7 +77,7 @@ In general, you will want to run the code in the cloud - we use [floydhub.com](h
 
 ```$ floyd run --gpu --env keras "python main.py"```
 
-For a convolutional neural network being trained on `cifar10`, expect run times of about 2 hours on a Tesla K80 (30 genomes and 8 generations). Compared to the brute force solution, you should expect to get high performing hyperparameter combinations within about 3.5 generations, about 8x to 12x faster than brute force. Of course, with a genetic algorithm, you are not *guaranteed* to find the best solution, you are merely likely to find something suitable relatively quickly. You can choose the various options in ```main.py```.
+For a convolutional neural network being trained on `cifar10`, expect run times of about 3.2 hours on a Tesla K80 (30 genomes and 8 generations). Compared to the brute force solution, you should expect to get high performing hyperparameter combinations within about 3.5 generations, about 8x to 12x faster than brute force. Of course, with a genetic algorithm, you are not *guaranteed* to find the best solution, you are merely likely to find something suitable relatively quickly. You can choose the various options in ```main.py```.
 
 ## Examples
 
