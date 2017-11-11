@@ -2,4 +2,5 @@
 *.pyc
 *.txt
 *.DS_Store
+*.floydexpt
 __pycache__/
