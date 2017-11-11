@@ -70,16 +70,11 @@ class Genome():
         gene_to_mutate = random.choice( list(self.all_possible_genes.keys()) )
 
         # And then let's mutate one of the genes.
-        # We need to make sure that this actually creates mutation!!!!!
+        # Make sure that this actually creates mutation
         current_value    = self.geneparam[gene_to_mutate]
         possible_choices = copy.deepcopy(self.all_possible_genes[gene_to_mutate])
-
-        #print(self.all_possible_genes[gene_to_mutate])
-        #print(current_value)
         
         possible_choices.remove(current_value)
-        
-        #print(possible_choices)
         
         self.geneparam[gene_to_mutate] = random.choice( possible_choices )
 

@@ -32,7 +32,7 @@ def get_cifar10_mlp():
     # Set defaults.
     nb_classes  = 10 #dataset dependent 
     batch_size  = 64
-    epochs      = 1 #will mostly terminate earlier
+    epochs      = 4
     input_shape = (3072,) #because it's RGB
 
     # Get the data.
@@ -84,8 +84,8 @@ def get_mnist_mlp():
     """Retrieve the MNIST dataset and process the data."""
     # Set defaults.
     nb_classes  = 10 #dataset dependent 
-    batch_size  = 128*12*8 # all we use mlp for is super-crude debugging.
-    epochs      = 1 #will mostly terminate earlier
+    batch_size  = 64
+    epochs      = 4
     input_shape = (784,)
 
     # Get the data.
@@ -227,6 +227,7 @@ def compile_model_cnn(geneparam, nb_classes, input_shape):
     model.add(Dense(nb_classes, activation = 'softmax'))
 
     #BAYESIAN CONVOLUTIONAL NEURAL NETWORKS WITH BERNOULLI APPROXIMATE VARIATIONAL INFERENCE
+    #need to read this paper
 
     model.compile(loss='categorical_crossentropy',
               optimizer=optimizer,

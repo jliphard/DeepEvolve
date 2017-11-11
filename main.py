@@ -124,35 +124,35 @@ def main():
         dataset = 'mnist_cnn'
     elif (ds == 3):
         dataset = 'cifar10_mlp'
-    else:
+    elif (ds == 4):
         dataset = 'cifar10_cnn'
+    else:
+        dataset = 'mnist_mlp'
 
     print("***Dataset:", dataset)
 
-    #dataset = 'mnist_mlp' # 'cifar10' 'mnist_mlp' 'mnist_cnn'
-
     if dataset == 'mnist_cnn':
-        generations = 5 # Number of times to evolve the population.
+        generations = 8 # Number of times to evolve the population.
         all_possible_genes = {
-            'nb_neurons': [32, 64, 128],
-            'nb_layers':  [1, 2, 3],
-            'activation': ['relu', 'elu', 'tanh', 'sigmoid'],
+            'nb_neurons': [16, 32, 64, 128],
+            'nb_layers':  [1, 2, 3, 4 ,5],
+            'activation': ['relu', 'elu', 'tanh', 'sigmoid', 'hard_sigmoid','softplus','linear'],
             'optimizer':  ['rmsprop', 'adam', 'sgd', 'adagrad','adadelta', 'adamax', 'nadam']
         }
     elif dataset == 'mnist_mlp':
-        generations = 3 # Number of times to evolve the population.
+        generations = 8 # Number of times to evolve the population.
         all_possible_genes = {
             'nb_neurons': [64, 128], #, 256, 512, 768, 1024],
-            'nb_layers':  [1, 2, 3, 4],
-            'activation': ['relu', 'elu', 'tanh', 'sigmoid'],
+            'nb_layers':  [1, 2, 3, 4, 5],
+            'activation': ['relu', 'elu', 'tanh', 'sigmoid', 'hard_sigmoid','softplus','linear'],
             'optimizer':  ['rmsprop', 'adam', 'sgd', 'adagrad','adadelta', 'adamax', 'nadam']
         }
     elif dataset == 'cifar10_mlp':
         generations = 8 # Number of times to evolve the population.
         all_possible_genes = {
             'nb_neurons': [64, 128, 256, 512, 768, 1024],
-            'nb_layers':  [1, 2, 3, 4],
-            'activation': ['relu', 'elu', 'tanh', 'sigmoid'],
+            'nb_layers':  [1, 2, 3, 4, 5],
+            'activation': ['relu', 'elu', 'tanh', 'sigmoid', 'hard_sigmoid','softplus','linear'],
             'optimizer':  ['rmsprop', 'adam', 'sgd', 'adagrad','adadelta', 'adamax', 'nadam']
         }
     elif dataset == 'cifar10_cnn':
@@ -167,8 +167,8 @@ def main():
         generations = 8 # Number of times to evolve the population.
         all_possible_genes = {
             'nb_neurons': [64, 128, 256, 512, 768, 1024],
-            'nb_layers':  [1, 2, 3, 4],
-            'activation': ['relu', 'elu', 'tanh', 'sigmoid'],
+            'nb_layers':  [1, 2, 3, 4, 5],
+            'activation': ['relu', 'elu', 'tanh', 'sigmoid', 'hard_sigmoid','softplus','linear'],
             'optimizer':  ['rmsprop', 'adam', 'sgd', 'adagrad','adadelta', 'adamax', 'nadam']
         }
             

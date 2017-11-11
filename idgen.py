@@ -14,7 +14,6 @@ class IDgen():
 
     def get_next_ID(self):
 
-        #id_to_return = self.currentID
         self.currentID += 1
 
         return self.currentID
