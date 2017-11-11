@@ -3,4 +3,5 @@
 *.txt
 *.DS_Store
 *.floydexpt
+*.floydignore
 __pycache__/
