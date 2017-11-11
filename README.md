@@ -2,7 +2,7 @@
 
 In 2017, it's relatively easy to *train* neural networks, but it's still difficult to figure out which network architectures and other hyperparameters to use - e.g. how many neurons, how many layers, and which activation functions? In the long term, of course, neural networks will learn how to architect themselves, without human intervention. Until then, the speed of developing application-optimized neural networks will remain limited by the time and expertise required to chose and refine hyperparameters. DeepEvolve is designed to help solve this problem, by rapidly returning good hyperparameters for particular datasets and classification problems. The code supports hyperparameter discovery for MLPs (ie. fully connected networks) and convolutional neural networks.
 
-If you had infinite time and infinite computing resources, you could consider brute-forcing the problem, and just compare and contrast all the parameter combinations. However, in almost all real applications of neural networks, you will probably have to balance competing demands (time, cost, desire to continuously optimize AI performance in dynamic environments) and you may - for whatever reason - have a strong interest to be able to rapidly generate good networks for diverse datasets. In that case, genetic algorithms will be useful.  
+If you had infinite time and infinite computing resources, you could brute-force the problem, and just compare and contrast all parameter combinations. However, many real-world applications of neural networks, you will probably have to balance competing demands (time, cost, desire to continuously optimize AI performance in dynamic environments) and you may - for whatever reason - have a strong interest to be able to rapidly generate good networks for diverse datasets. In that case, genetic algorithms will be useful.  
 
 ## Genetic Algorithms
 
@@ -16,18 +16,14 @@ DeepEvolve is based on [Matt Harvey's Keras code](https://github.com/harvitronix
 
 ## Important aspects of the code
 
-Each AI network architecture is represented as a string of genes. These architectures/genomes recombine with some frequency, at one randomly selected position along the genomes. Note that a genome with *N* genes can recombine at *N* - 1 *nontrivial* positions (1, 2, 3, N-1). Specifically, ```recomb_loc = 0 || = len(self.all_possible_genes)``` does not lead to recombination, but just returns the original parental genomes, and therefore ```recomb_loc = random.randint(1, len(self.all_possible_genes) - 1)```. 
+Each AI network architecture is represented as a string of genes. These architectures/genomes recombine with some frequency, at one randomly selected position along the genomes. Note that a genome with *N* genes can recombine at *N* - 1 nontrivial positions (1, 2, 3, N-1). Specifically, ```recomb_loc = 0 || len(self.all_possible_genes)``` does not lead to recombination, but just returns the original parental genomes, and therefore ```recomb_loc = random.randint(1, len(self.all_possible_genes) - 1)```. 
 
 ```python
-pcl = len(self.all_possible_genes)
-recomb_loc = random.randint(1,pcl - 1) 
-
-child1 = {}
-child2 = {}
+recomb_loc = random.randint(1,len(self.all_possible_genes) - 1) 
 
 keys = list(self.all_possible_genes)
 
-#*** CORE RECOMBINATION CODE ****
+*** CORE RECOMBINATION CODE ****
 for x in range(0, pcl):
     if x < recomb_loc:
         child1[keys[x]] = mom.geneparam[keys[x]]
@@ -51,12 +47,11 @@ Finally, we also facilitate genome uniqueness during the mutation operation, by 
 
 ```python
 def mutate_one_gene(self):
-    """Randomly mutate one gene in the genome.
-    """
+
     # Which gene shall we mutate? Choose one of N possible keys/genes.
     gene_to_mutate = random.choice( list(self.all_possible_genes.keys()) )
 
-    # We need to make sure that this actually creates mutation!!!!!
+    # Make sure that we actually create a new variant
     current_value    = self.geneparam[gene_to_mutate]
     possible_choices = copy.deepcopy(self.all_possible_genes[gene_to_mutate])    
     possible_choices.remove(current_value)
