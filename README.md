@@ -81,7 +81,7 @@ For a convolutional neural network being trained on `cifar10`, expect run times 
 
 ## Examples
 
-Here are the time dynamics of discovering the optimal optimizer (Adam). The x axis is time, and the y axis is gene variant frequency in the population. Adaptive Moment Estimation ([Adam](https://arxiv.org/pdf/1412.6980.pdf)) computes adaptive learning rates for each parameter based on both first and second moments of past gradients. By the 5th generation, genomes with adaptive moment estimation are the dominant subspecies in the population. 
+Here are the time dynamics of discovering the optimal optimizer (Adam). The x axis is time, and the y axis is gene variant frequency in the population. Adaptive Moment Estimation ([Adam](https://arxiv.org/pdf/1412.6980.pdf)) computes adaptive learning rates based on exponential moving averages of the 1st moment (the mean) and the 2nd raw moment (the uncentered variance) of the gradient. By the 5th generation, genomes with adaptive moment estimation are the dominant subspecies in the population. 
 
 ![alt text](https://github.com/jliphard/DeepEvolve/blob/726aaf3dfdc8d6d2c6bc64d3a55e3ab3023b29c7/Images/Optimizer.png "Optimizer kinetics")
 
