@@ -16,6 +16,7 @@ from keras.utils.np_utils import to_categorical
 from keras.callbacks      import EarlyStopping, Callback
 from keras.layers         import Conv2D, MaxPooling2D
 from keras                import backend as K
+from keras.preprocessing.image import ImageDataGenerator
 
 import logging
 
@@ -148,6 +149,39 @@ def get_mnist_cnn():
 
     return (nb_classes, batch_size, input_shape, x_train, x_test, y_train, y_test, epochs)
 
+def get_custom_cnn():
+    """Retrieve the custom dataset and process the data."""
+    # Set defaults.
+    nb_classes = 1 #dataset dependent
+    batch_size = 128
+    epochs     = 4
+    train_data_dir = '/data/gender/train/'
+    test_data_dir = '/data/gender/validate/'
+
+    # Input image dimensions
+    img_rows, img_cols = 200, 200
+
+    if K.image_data_format() == 'channels_first':
+        input_shape = (3, img_rows, img_cols)
+    else:
+        input_shape = (img_rows, img_cols, 3)
+
+    datagen = ImageDataGenerator(rescale=1. / 255)
+
+    train_generator = datagen.flow_from_directory(
+            train_data_dir,
+            target_size=(img_rows, img_cols),
+            batch_size=batch_size,
+            class_mode='binary')
+
+    test_generator = datagen.flow_from_directory(
+            test_data_dir,
+            target_size=(img_rows, img_cols),
+            batch_size=batch_size,
+            class_mode='binary')
+
+    return (nb_classes, batch_size, input_shape, train_generator, test_generator, epochs)
+
 def compile_model_mlp(geneparam, nb_classes, input_shape):
     """Compile a sequential model.
 
@@ -224,12 +258,12 @@ def compile_model_cnn(geneparam, nb_classes, input_shape):
     model.add(Flatten())
     model.add(Dense(nb_neurons, activation = activation))
     model.add(Dropout(0.5))
-    model.add(Dense(nb_classes, activation = 'softmax'))
+    model.add(Dense(nb_classes, activation = 'sigmoid'))
 
     #BAYESIAN CONVOLUTIONAL NEURAL NETWORKS WITH BERNOULLI APPROXIMATE VARIATIONAL INFERENCE
     #need to read this paper
 
-    model.compile(loss='categorical_crossentropy',
+    model.compile(loss='binary_crossentropy',
               optimizer=optimizer,
               metrics=['accuracy'])
 
@@ -252,6 +286,7 @@ def train_and_score(geneparam, dataset):
     """
     logging.info("Getting Keras datasets")
 
+    use_generator = False
     if dataset   == 'cifar10_mlp':
         nb_classes, batch_size, input_shape, x_train, x_test, y_train, y_test, epochs = get_cifar10_mlp()
     elif dataset == 'cifar10_cnn':
@@ -260,6 +295,9 @@ def train_and_score(geneparam, dataset):
         nb_classes, batch_size, input_shape, x_train, x_test, y_train, y_test, epochs = get_mnist_mlp()
     elif dataset == 'mnist_cnn':
         nb_classes, batch_size, input_shape, x_train, x_test, y_train, y_test, epochs = get_mnist_cnn()
+    elif dataset == 'custom_cnn':
+        use_generator = True
+        nb_classes, batch_size, input_shape, train_generator, test_generator, epochs = get_custom_cnn()
 
     logging.info("Compling Keras model")
 
@@ -271,25 +309,40 @@ def train_and_score(geneparam, dataset):
         model = compile_model_mlp(geneparam, nb_classes, input_shape)
     elif dataset == 'mnist_cnn':
         model = compile_model_cnn(geneparam, nb_classes, input_shape)
+    elif dataset == 'custom_cnn':
+        model = compile_model_cnn(geneparam, nb_classes, input_shape)
 
     history = LossHistory()
 
-    model.fit(x_train, y_train,
-              batch_size=batch_size,
-              epochs=epochs,  
-              # using early stopping so no real limit - don't want to waste time on horrible architectures
-              verbose=1,
-              validation_data=(x_test, y_test),
-              #callbacks=[history])
-              callbacks=[early_stopper])
+    if (not use_generator):
+        model.fit(x_train, y_train,
+                  batch_size=batch_size,
+                  epochs=epochs,
+                  # using early stopping so no real limit - don't want to waste time on horrible architectures
+                  verbose=1,
+                  validation_data=(x_test, y_test),
+                  #callbacks=[history])
+                  callbacks=[early_stopper])
 
-    score = model.evaluate(x_test, y_test, verbose=0)
+        score = model.evaluate(x_test, y_test, verbose=0)
+    else:
+        model.fit_generator(train_generator,
+                  steps_per_epoch=len(train_generator.filenames)//batch_size,
+                  epochs=epochs,
+                  # using early stopping so no real limit - don't want to waste time on horrible architectures
+                  verbose=1,
+                  validation_data=test_generator,
+                  #callbacks=[history])
+                  callbacks=[early_stopper])
+
+        score = model.evaluate_generator(test_generator, verbose=0)
+
 
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
 
     K.clear_session()
-    #we do not care about keeping any of this in memory - 
+    #we do not care about keeping any of this in memory -
     #we just need to know the final scores and the architecture
-    
+
     return score[1]  # 1 is accuracy. 0 is loss.
