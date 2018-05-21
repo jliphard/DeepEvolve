@@ -171,6 +171,14 @@ def main():
             'activation': ['relu', 'elu', 'tanh', 'sigmoid', 'hard_sigmoid','softplus','linear'],
             'optimizer':  ['rmsprop', 'adam', 'sgd', 'adagrad','adadelta', 'adamax', 'nadam']
         }
+
+    # replace nb_neurons with 1 unique value for each layer
+    # 6th value reserved for dense layer
+    nb_neurons = all_possible_genes['nb_neurons']
+    for i in range(1,7):
+      all_possible_genes['nb_neurons_' + str(i)] = nb_neurons
+    # remove old value from dict
+    all_possible_genes.pop('nb_neurons')
             
     print("***Evolving for %d generations with population size = %d***" % (generations, population))
 

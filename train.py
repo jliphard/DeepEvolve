@@ -188,7 +188,7 @@ def compile_model_mlp(geneparam, nb_classes, input_shape):
 
     return model
 
-def compile_model_cnn(geneparam, nb_classes, input_shape):
+def compile_model_cnn(genome, nb_classes, input_shape):
     """Compile a sequential model.
 
     Args:
@@ -199,12 +199,12 @@ def compile_model_cnn(geneparam, nb_classes, input_shape):
 
     """
     # Get our network parameters.
-    nb_layers  = geneparam['nb_layers' ]
-    nb_neurons = geneparam['nb_neurons']
-    activation = geneparam['activation']
-    optimizer  = geneparam['optimizer' ]
+    nb_layers  = genome.geneparam['nb_layers' ]
+    nb_neurons = genome.nb_neurons()
+    activation = genome.geneparam['activation']
+    optimizer  = genome.geneparam['optimizer' ]
 
-    logging.info("Architecture:%d,%s,%s,%d" % (nb_neurons, activation, optimizer, nb_layers))
+    logging.info("Architecture:%s,%s,%s,%d" % (str(nb_neurons), activation, optimizer, nb_layers))
 
     model = Sequential()
 
@@ -212,9 +212,9 @@ def compile_model_cnn(geneparam, nb_classes, input_shape):
     for i in range(0,nb_layers):
         # Need input shape for first layer.
         if i == 0:
-            model.add(Conv2D(nb_neurons, kernel_size = (3, 3), activation = activation, padding='same', input_shape = input_shape))
+            model.add(Conv2D(nb_neurons[i], kernel_size = (3, 3), activation = activation, padding='same', input_shape = input_shape))
         else:
-            model.add(Conv2D(nb_neurons, kernel_size = (3, 3), activation = activation))
+            model.add(Conv2D(nb_neurons[i], kernel_size = (3, 3), activation = activation))
         
         if i < 2: #otherwise we hit zero
             model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -222,7 +222,8 @@ def compile_model_cnn(geneparam, nb_classes, input_shape):
         model.add(Dropout(0.2))
 
     model.add(Flatten())
-    model.add(Dense(nb_neurons, activation = activation))
+    # always use last nb_neurons value for dense layer
+    model.add(Dense(nb_neurons[5], activation = activation))
     model.add(Dropout(0.5))
     model.add(Dense(nb_classes, activation = 'softmax'))
 
@@ -242,7 +243,7 @@ class LossHistory(Callback):
     def on_batch_end(self, batch, logs={}):
         self.losses.append(logs.get('loss'))
 
-def train_and_score(geneparam, dataset):
+def train_and_score(genome, dataset):
     """Train the model, return test loss.
 
     Args:
@@ -266,11 +267,11 @@ def train_and_score(geneparam, dataset):
     if dataset   == 'cifar10_mlp':
         model = compile_model_mlp(geneparam, nb_classes, input_shape)
     elif dataset == 'cifar10_cnn':
-        model = compile_model_cnn(geneparam, nb_classes, input_shape)
+        model = compile_model_cnn(genome, nb_classes, input_shape)
     elif dataset == 'mnist_mlp':
         model = compile_model_mlp(geneparam, nb_classes, input_shape)
     elif dataset == 'mnist_cnn':
-        model = compile_model_cnn(geneparam, nb_classes, input_shape)
+        model = compile_model_cnn(geneome, nb_classes, input_shape)
 
     history = LossHistory()
 
