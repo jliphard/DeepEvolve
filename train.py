@@ -223,7 +223,7 @@ def compile_model_cnn(genome, nb_classes, input_shape):
 
     model.add(Flatten())
     # always use last nb_neurons value for dense layer
-    model.add(Dense(nb_neurons[5], activation = activation))
+    model.add(Dense(nb_neurons[len(nb_neurons) - 1], activation = activation))
     model.add(Dropout(0.5))
     model.add(Dense(nb_classes, activation = 'softmax'))
 
