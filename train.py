@@ -271,7 +271,7 @@ def train_and_score(genome, dataset):
     elif dataset == 'mnist_mlp':
         model = compile_model_mlp(geneparam, nb_classes, input_shape)
     elif dataset == 'mnist_cnn':
-        model = compile_model_cnn(geneome, nb_classes, input_shape)
+        model = compile_model_cnn(genome, nb_classes, input_shape)
 
     history = LossHistory()
 
